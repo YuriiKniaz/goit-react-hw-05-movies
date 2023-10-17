@@ -1,19 +1,24 @@
 import { Loader } from 'components/Loader/Loader';
 import React, { Suspense } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import shared from './SharedLayout.module.css';
 
 export const SharedLayout = () => {
   return (
     <>
-      <header>
-        <div>
-          <nav>
-            <ul>
+      <header className={shared.header}>
+        <div className={shared.headerWrapper}>
+          <nav className={shared.navigation}>
+            <ul className={shared.navList}>
               <li>
-                <NavLink to="/">Home</NavLink>
+                <NavLink className={shared.navListItem} to="/">
+                  Home
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/movies">Movies</NavLink>
+                <NavLink className={shared.navListItem} to="/movies">
+                  Movies
+                </NavLink>
               </li>
             </ul>
           </nav>

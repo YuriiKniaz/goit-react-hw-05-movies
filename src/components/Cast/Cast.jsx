@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getMovieCredits } from 'fetchMovies.js';
 import { useParams } from 'react-router-dom';
 import { Actors } from 'components/Actors/Actors';
+import cast from './Cast.module.css';
 
 export const Cast = () => {
   const [castData, setCastData] = useState([]);
@@ -10,9 +11,9 @@ export const Cast = () => {
   useEffect(() => {
     async function getCast() {
       try {
-        const cast = await getMovieCredits(movieId);
-        console.log(cast);
-        setCastData(cast.data.cast);
+        const presponse = await getMovieCredits(movieId);
+
+        setCastData(presponse.data.cast);
       } catch (error) {
         console.log(error.message);
       }
@@ -22,11 +23,11 @@ export const Cast = () => {
   }, [movieId]);
 
   return (
-    <ul>
+    <ul className={cast.castList}>
       {castData.map(({ id, name, profile_path, character }) => (
-        <li key={id}>
+        <li className={cast.castListItem} key={id}>
           <Actors
-            nmae={name}
+            name={name}
             profile_path={profile_path}
             character={character}
           />

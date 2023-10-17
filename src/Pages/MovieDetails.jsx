@@ -8,8 +8,8 @@ import { Loader } from 'components/Loader/Loader';
 const MovieDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [detailsData, setDetailsData] = useState('');
-  const BASE_IMG = 'https://image.tmdb.org/t/p/w500';
+  const [detailsData, setDetailsData] = useState(null);
+  const BASE_IMG = 'https://image.tmdb.org/t/p/w300';
   const { movieId } = useParams();
   const location = useLocation();
   const linkBack = useRef(location.state?.from ?? '/movies');
@@ -19,10 +19,11 @@ const MovieDetails = () => {
       try {
         setIsLoading(true);
 
-        const details = await getMovieDetails(movieId);
-        setDetailsData(details);
+        const response = await getMovieDetails(movieId);
+        setDetailsData(response);
         setIsLoading(false);
       } catch (error) {
+        console.log(error.message);
         setIsError(true);
         setIsLoading(false);
       }
@@ -35,7 +36,7 @@ const MovieDetails = () => {
     <div className={details.container}>
       <button className={details.goBackBtn}>
         <Link to={linkBack.current}>
-          <span>&#10229;</span>
+          <span className={details.goBackBtnTag}>Go back</span>
         </Link>
       </button>
       {isLoading && <Loader />}
@@ -48,6 +49,7 @@ const MovieDetails = () => {
         <div className={details.detailsWrapper}>
           <div className={details.imgWrapper}>
             <img
+              className={details.detailsImg}
               src={`${BASE_IMG}${detailsData.data.poster_path}`}
               alt={detailsData.data.title}
             />
@@ -55,38 +57,38 @@ const MovieDetails = () => {
 
           <div className={details.detailsDescr}>
             <p className={details.detailsDescrTitle}>
-              Overview:
-              <span className={details.detailsSummary}>
-                {detailsData.data.overview}
-              </span>
+              <span className={details.detailsSummary}>Overview: </span>
+              {detailsData.data.overview}
             </p>
 
             <p className={details.detailsDescrTitle}>
-              Genres:
-              {detailsData.data.map(({ id, name }) => (
-                <span className={details.detailsSummary} key={id}>
-                  {name}
+              <span className={details.detailsSummary}>Genres: </span>
+              {detailsData.data.genres.map(({ id, name }) => (
+                <span className={details.detailsSummaryGenres} key={id}>
+                  {name}&nbsp;
                 </span>
               ))}
             </p>
             <p className={details.detailsDescrTitle}>
-              <span className={details.detailsSummary}>
-                Avarage: {detailsData.data.vote_avarage}
-              </span>
+              <span className={details.detailsSummary}>Avarage: </span>
+              {detailsData.data.vote_average}
             </p>
 
             <p className={details.detailsDescrTitle}>
-              <span className={details.detailsSummary}>
-                Release Date: {detailsData.data.release_date}
-              </span>
+              <span className={details.detailsSummary}>Release Date: </span>
+              {detailsData.data.release_date}
             </p>
           </div>
           <ul className={details.buttons}>
-            <li className={details.buttonsItem}>
-              <Link to={'cast'}>Cast</Link>
+            <li>
+              <Link className={details.buttonsItem} to="cast">
+                Cast
+              </Link>
             </li>
-            <li className={details.buttonsItem}>
-              <Link to={'reviews'}>Reviews</Link>
+            <li>
+              <Link className={details.buttonsItem} to="reviews">
+                Reviews
+              </Link>
             </li>
           </ul>
         </div>

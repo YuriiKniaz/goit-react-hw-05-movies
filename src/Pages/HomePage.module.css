@@ -1,0 +1,13 @@
+.container {
+  width: 1350px;
+
+  margin: 32px auto;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 32px;
+  color: #d796f2;
+  font-weight: 700;
+  text-transform: uppercase;
+}

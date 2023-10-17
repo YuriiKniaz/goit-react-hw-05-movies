@@ -27,14 +27,15 @@ const MovieSearch = () => {
         setIsLoading(true);
         setIsError(false);
 
-        const data = await getSearchMovie(query, page);
+        const response = await getSearchMovie(query, page);
 
         if (page === 1) {
-          setMoviesQuery(data.data.results);
+          setMoviesQuery(response.data.results);
         } else {
-          setMoviesQuery(prevMovies => [...prevMovies, ...data.data.results]);
+          setMoviesQuery(movies => [...movies, ...response.data.results]);
           setLoadMore(
-            data.data.total_pages < Math.ceil(data.data.total_result / 12)
+            response.data.total_pages <
+              Math.ceil(response.data.total_result / 20)
           );
         }
         setLoadMore(true);
@@ -49,7 +50,7 @@ const MovieSearch = () => {
   }, [searchParams, page, query]);
 
   const onLoadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    setPage(page => page + 1);
   };
 
   const queryRequest = e => {
@@ -61,20 +62,23 @@ const MovieSearch = () => {
 
   return (
     <div className={movieSearch.container}>
-      <p>Search</p>
-      <input
-        type="text"
-        placeholder="Search"
-        value={query}
-        onChange={queryRequest}
-      />
+      <div className={movieSearch.searchWrapper}>
+        <p className={movieSearch.searchPrg}>Search</p>
+        <input
+          className={movieSearch.searchInput}
+          type="text"
+          placeholder="Type in the movie/show name"
+          value={query}
+          onChange={queryRequest}
+        />
+      </div>
       {isLoading && <Loader />}
       {isError ? (
         <span className={movieSearch.error}>
           Error occurred, try again in few seconds
         </span>
       ) : (
-        moviesQuery.length > 0 && <MovieList movies={moviesQuery} />
+        moviesQuery.length > 0 && <MovieList moviesData={moviesQuery} />
       )}
       {loadMore && (
         <button

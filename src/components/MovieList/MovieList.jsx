@@ -2,11 +2,17 @@ import React from 'react';
 import { MovieItem } from 'components/MovieItem/MovieItem';
 import movieList from './MovieList.module.css';
 
-export const MovieList = ({ movies }) => {
+export const MovieList = ({ moviesData }) => {
   return (
     <ul className={movieList.movieList}>
-      {movies.map(({ id, poster_path, title, name }) => (
-        <MovieItem key={id} poster_path={poster_path} title={name ?? title} />
+      {moviesData.map(({ id, poster_path, title, vote_average }) => (
+        <MovieItem
+          key={id}
+          poster_path={poster_path}
+          title={title}
+          vote_average={vote_average}
+          id={id}
+        />
       ))}
     </ul>
   );

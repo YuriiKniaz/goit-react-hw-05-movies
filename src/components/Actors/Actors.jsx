@@ -2,7 +2,7 @@ import React from 'react';
 import actors from './Actors.module.css';
 
 export const Actors = ({ name, profile_path, character }) => {
-  const BASE_IMG = 'https://image.tmdb.org/t/p/w500';
+  const BASE_IMG = 'https://image.tmdb.org/t/p/w300';
   return (
     <div className={actors.wrapper}>
       <img

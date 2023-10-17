@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = 'https://api.themoviedb.org/3/';
+const URL = 'https://api.themoviedb.org/3';
 const API_KEY = '4c5ce924c614923ba37f4afefa6eee90';
 
 axios.defaults.params = {
@@ -16,6 +16,7 @@ export async function getSearchMovie(query, page) {
 }
 
 export async function getMovieDetails(movieId) {
+    
     return await axios(`${URL}/movie/${movieId}`)
 }
 
